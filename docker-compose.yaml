@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  api:
+    image: backend-api
+    build:
+      context: ./api
+      dockerfile: ../docker/api.Dockerfile
+    volumes:
+      - ./api/src:/app/src
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-mongodb://mongo:27017/}
+      DATABASE_NAME: ${DATABASE_NAME:-database}
+      DATABASE_USER: ${MONGO_INITDB_ROOT_USERNAME:-database}
+      DATABASE_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-database}
+      JWT_SECRET: ${JWT_SECRET:-secret}
+    ports:
+      - "8080:3000"
+    depends_on:
+      - mongo
+      - mongo-express
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-database}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-database}
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    volumes:
+      - './data:/data/db'
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${ME_CONFIG_MONGODB_ADMINUSERNAME:-database}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${ME_CONFIG_MONGODB_ADMINPASSWORD:-database}
+      ME_CONFIG_MONGODB_URL: mongodb://${ME_CONFIG_MONGODB_ADMINUSERNAME:-database}:${ME_CONFIG_MONGODB_ADMINPASSWORD:-database}@mongo:27017/
+      ME_CONFIG_BASICAUTH: false
