@@ -5,10 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import debug from 'debug';
 import { Request } from 'express';
-
-const logException = debug('debug:exception');
 
 @Injectable()
 // Inspired from https://docs.nestjs.com/security/authentication#implementing-the-authentication-guard
@@ -27,7 +24,6 @@ export class AuthGuard implements CanActivate {
       request['payload'] = payload;
       return true;
     } catch (e) {
-      logException('%s', e.stack || e.message);
       throw new UnauthorizedException();
     }
   }

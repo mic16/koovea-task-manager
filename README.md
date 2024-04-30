@@ -8,7 +8,7 @@ Scaffold backend with:
 
 To run the project you need to have docker and docker compose, see [Install Docker](https://docs.docker.com/engine/install/).
 
-## How to run``
+## How to run
 
 Run this command to start the backend in development mode with hot reload enabled:
 ```bash
