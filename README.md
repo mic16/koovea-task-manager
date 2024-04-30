@@ -46,3 +46,7 @@ This will rebuild and run the containers.
 
 - `api` NestJS backend
 - `docker` Docker images for development
+
+## Documentation
+
+To look at the Swagger documentation, you can go to http://localhost:8080/api
